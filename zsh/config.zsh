@@ -6,14 +6,41 @@ fi
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
+ZSH_THEME="robbyrussell"
+
 
 fpath=($ZSH/functions $fpath)
 
 autoload -U $ZSH/functions/*(:t)
 
-HISTFILE=~/.zsh_history
+export HISTFILE="$HOME/.history"
 HISTSIZE=10000
 SAVEHIST=10000
+
+autoload -U compinit
+compinit
+
+export HISTSIZE=2000
+export HISTFILE="$HOME/.history"
+export SAVEHIST=$HISTSIZE
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH=/usr/local/bin:$PATH
+
+eval "$(rbenv init -)"
+
+export MARKPATH=$HOME/.marks
+function jump { 
+    cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
+}
+function mark { 
+    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
+}
+function unmark { 
+    rm -i "$MARKPATH/$1"
+}
+function marks {
+    ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
+}
 
 setopt NO_BG_NICE # don't nice background tasks
 setopt NO_HUP
