@@ -4,6 +4,8 @@ export ZSH=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
 
+export PATH=/Users/scott.bishop/Documents/sdk/platform-tools:$PATH
+
 plugins=(git ruby golang django scala gem history history-substring-search terminalapp brew nanoc)
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
