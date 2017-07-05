@@ -26,9 +26,6 @@ export SAVEHIST=$HISTSIZE
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH=/usr/local/bin:$PATH
 
-eval "$(rbenv init -)"
-eval "$(thefuck --alias fuck)"
-
 export MARKPATH=$HOME/.marks
 function jump { 
     cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"

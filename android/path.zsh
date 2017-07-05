@@ -13,3 +13,21 @@ then
   export PATH="$ANDROID_SDK/platform-tools:$ANDROID_SDK/tools:$PATH"
   export ANDROID_HOME=$ANDROID_SDK
 fi
+
+function upfind() {
+   dir=`pwd`
+   while [ "$dir" != "/" ]; do
+      local_path=`find "$dir" -maxdepth 1 -name $1`
+      if [ ! -z $local_path ]; then
+         echo "$local_path"
+         return
+      fi
+      dir=`dirname "$dir"`
+    done
+}
+function gw() {
+    $(upfind gradlew) "$@"
+}
+function stem() {
+    $python "$(upfind developmentScripts)/LaunchAVD.py" "$@"
+}
