@@ -6,6 +6,9 @@ then
   alias git=$hub_path
 fi
 
+# Gradle
+alias gw='./gradlew'
+
 # Logging
 alias gl='git log --first-parent'
 alias glg='git log --graph'
@@ -35,6 +38,10 @@ alias ga='git add --all'
 alias gco='git checkout'
 alias gcb='git copy-branch-name'
 alias gb='git branch'
+
+#Merging
+alias gmd='git merge develop'
+alias gpm='gitupdatebases;git merge develop'
 
 # Clean up
 alias grp='git remote prune origin'
