@@ -12,6 +12,7 @@ alias kdd='kubectl delete deployment'
 alias kdj='kubectl delete job'
 alias kdf='kubectl delete -f'
 alias klf='kubectl logs -f'
+alias kl='kubectl logs'
 alias kaf='kubectl apply -f'
 alias kra='krender; kapply'
 
