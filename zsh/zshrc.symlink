@@ -4,8 +4,7 @@ export ZSH=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
 
-export PATH=/Users/scott.bishop/Documents/sdk/platform-tools:$PATH
-
+export PATH=/Users/${USER}/Library/Android/sdk/platform-tools/:$PATH
 
 export PATH="$HOME/.rbenv/bin:/usr/local/bin:$PATH"
 eval "$(rbenv init -)"
