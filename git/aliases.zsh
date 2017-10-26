@@ -47,8 +47,12 @@ alias gpm='gitupdatebases;git merge develop'
 alias grp='git remote prune origin'
 alias gcl='git-cleanup'
 
+function gpsu() {
+  git push --set-upstream origin "$(git_branch)"
+}
+
 function git_branch() {
-  echo $($git symbolic-ref HEAD 2>/dev/null | awk -F/ {'print $NF'})
+  echo $($git symbolic-ref HEAD --short)
 }
 
 function git-merged() { git branch --merged $@ | sed -e '/^*/d' }
