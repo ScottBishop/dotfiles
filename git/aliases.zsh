@@ -47,6 +47,24 @@ alias gpm='gitupdatebases;git merge develop'
 alias grp='git remote prune origin'
 alias gcl='git-cleanup'
 
+function change-commits-to-personal() {
+	git filter-branch -f --env-filter "GIT_AUTHOR_NAME='ScottBishop'; GIT_AUTHOR_EMAIL='scottbishop70@gmail.com'; GIT_COMMITTER_NAME='scott.bishop'; GIT_COMMITTER_EMAIL='scott.bishop@workday.com';" HEAD
+}
+
+function change-commits-to-work() {
+	git filter-branch -f --env-filter "GIT_AUTHOR_NAME='scott.bishop'; GIT_AUTHOR_EMAIL='scott.bishop@workday.com'; GIT_COMMITTER_NAME='ScottBishop'; GIT_COMMITTER_EMAIL='scottbishop70@gmail.com';" HEAD
+}
+
+function change-git-to-work() {
+	git config user.name "scott.bishop" 
+	git config user.email "scott.bishop@workday.com" 
+}
+
+function change-git-to-personal() {
+	git config user.name "ScottBishop"
+	git config user.email "scottbishop70@gmail.com" 
+}
+
 function gpsu() {
   git push --set-upstream origin "$(git_branch)"
 }
