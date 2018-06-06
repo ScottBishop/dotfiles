@@ -42,6 +42,8 @@ alias gb='git branch'
 #Merging
 alias gmd='git merge develop'
 alias gpm='gitupdatebases;git merge develop'
+alias ufb='updatefeaturebranch'
+alias ufbp='updatefeaturebranch MOBILEANDROID-16581_PrincessMax'
 
 # Clean up
 alias grp='git remote prune origin'
@@ -108,7 +110,7 @@ function git-cleanup() {
 
 function gitupdatebases() {
     git fetch origin
-    basis_branches=('master' 'develop' 'rc')
+    basis_branches=('master' 'develop' 'rc' 'MOBILEANDROID-16581_PrincessMax')
     for branch in $basis_branches; do
         # verify it exists
         git show-ref --verify --quiet refs/heads/"$branch"
@@ -127,4 +129,21 @@ function gitupdatebases() {
         echo "Updating $branch to origin/$branch"
         git update-ref refs/heads/"$branch" origin/"$branch"
     done
+}
+
+function updatefeaturebranch() {
+    currentBranch=`git rev-parse --abbrev-ref HEAD`
+    featureBranch="${1}"
+    echo "=== Currently On Branch $currentBranch ==="
+    echo "=== Updating All Base Branches Branches ==="
+    gitupdatebases
+    git checkout $featureBranch
+    echo "=== Merging develop into $featureBranch ==="
+    git merge develop
+    echo "=== Pushing $featureBranch to Github ==="
+    gp
+    git checkout $currentBranch
+    echo "=== Merging $featureBranch into $currentBranch ==="
+    git merge $featureBranch
+    echo "=== Successfully merged develop into $featureBranch and $featureBranch into $currentBranch ==="
 }
