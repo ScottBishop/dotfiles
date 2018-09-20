@@ -110,7 +110,7 @@ function git-cleanup() {
 
 function gitupdatebases() {
     git fetch origin
-    basis_branches=('master' 'develop' 'rc' 'MOBILEANDROID-16581_PrincessMax')
+    basis_branches=('master' 'develop' 'rc')
     for branch in $basis_branches; do
         # verify it exists
         git show-ref --verify --quiet refs/heads/"$branch"
@@ -138,6 +138,8 @@ function updatefeaturebranch() {
     echo "=== Updating All Base Branches Branches ==="
     gitupdatebases
     git checkout $featureBranch
+    echo "=== Updating Feature Branch: $featureBranch ==="
+    git pull -f
     echo "=== Merging develop into $featureBranch ==="
     git merge develop
     echo "=== Pushing $featureBranch to Github ==="
