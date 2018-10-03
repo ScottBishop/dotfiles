@@ -138,8 +138,8 @@ function updatefeaturebranch() {
     echo "=== Updating All Base Branches Branches ==="
     gitupdatebases
     git checkout $featureBranch
-    echo "=== Updating Feature Branch: $featureBranch ==="
-    git pull -f
+    echo "=== Updating Feature Branch to origin/$featureBranch ==="
+    git pull origin $featureBranch
     echo "=== Merging develop into $featureBranch ==="
     git merge develop
     echo "=== Pushing $featureBranch to Github ==="
