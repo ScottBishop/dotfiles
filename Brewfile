@@ -1,6 +1,7 @@
 cask_args appdir: '/Applications'
 
 tap 'homebrew/bundle'
+tap "homebrew/cask"
 
 brew 'ack'
 brew 'awscli'
@@ -13,13 +14,11 @@ brew 'git-lfs'
 brew 'go'
 brew 'grc'
 brew 'imagemagick'
-brew 'jp2a'
 brew 'jq'
 brew 'kops'
 brew 'kotlin'
 brew 'kubernetes-cli'
 brew 'kubernetes-helm'
-brew 'libcaca', args: ['with-imlib2']
 brew 'libgit2'
 brew 'make'
 brew 'maven'
@@ -39,7 +38,6 @@ brew 'yarn'
 
 cask '1password'
 cask 'android-studio'
-cask 'appcleaner'
 cask 'google-chrome'
 cask 'intellij-idea'
 cask 'docker'
