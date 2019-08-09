@@ -43,23 +43,22 @@ alias gb='git branch'
 alias gmd='git merge develop'
 alias gpm='gitupdatebases;git merge develop'
 alias ufb='updatefeaturebranch'
-alias ufbp='updatefeaturebranch MOBILEANDROID-16581_PrincessMax'
 
 # Clean up
 alias grp='git remote prune origin'
 alias gcl='git-cleanup'
 
 function change-commits-to-personal() {
-	git filter-branch -f --env-filter "GIT_AUTHOR_NAME='ScottBishop'; GIT_AUTHOR_EMAIL='scottbishop70@gmail.com'; GIT_COMMITTER_NAME='scott.bishop'; GIT_COMMITTER_EMAIL='scott.bishop@workday.com';" HEAD
+	git filter-branch -f --env-filter "GIT_AUTHOR_NAME='ScottBishop'; GIT_AUTHOR_EMAIL='scottbishop70@gmail.com'; GIT_COMMITTER_NAME='scott.bishop'; GIT_COMMITTER_EMAIL='scott.bishop@servicenow.com';" HEAD
 }
 
 function change-commits-to-work() {
-	git filter-branch -f --env-filter "GIT_AUTHOR_NAME='scott.bishop'; GIT_AUTHOR_EMAIL='scott.bishop@workday.com'; GIT_COMMITTER_NAME='ScottBishop'; GIT_COMMITTER_EMAIL='scottbishop70@gmail.com';" HEAD
+	git filter-branch -f --env-filter "GIT_AUTHOR_NAME='scott.bishop'; GIT_AUTHOR_EMAIL='scott.bishop@servicenow.com'; GIT_COMMITTER_NAME='ScottBishop'; GIT_COMMITTER_EMAIL='scottbishop70@gmail.com';" HEAD
 }
 
 function change-git-to-work() {
 	git config user.name "scott.bishop" 
-	git config user.email "scott.bishop@workday.com" 
+	git config user.email "scott.bishop@servicenow.com" 
 }
 
 function change-git-to-personal() {
@@ -82,7 +81,7 @@ function git-cleanup() {
 	git remote prune origin
 
 	echo "=== Cleaning Local Branches ========="
-	except_branches=('"\*"' 'master' 'develop' 'rc')
+	except_branches=('"\*"' 'master' 'develop')
 	command="git branch --merged"
 	for branch in $except_branches; do
 		command="$command | grep -v $branch"
@@ -110,7 +109,7 @@ function git-cleanup() {
 
 function gitupdatebases() {
     git fetch origin
-    basis_branches=('master' 'develop' 'rc')
+    basis_branches=('master' 'develop')
     for branch in $basis_branches; do
         # verify it exists
         git show-ref --verify --quiet refs/heads/"$branch"
