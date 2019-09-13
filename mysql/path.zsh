@@ -1,0 +1,1 @@
+export PATH=$PATH:/usr/local/opt/mysql56/bin
