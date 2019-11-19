@@ -47,6 +47,8 @@ alias ufb='updatefeaturebranch'
 # Clean up
 alias grp='git remote prune origin'
 alias gcl='git-cleanup'
+alias gclm='git branch | egrep -v "(master|\*)" | xargs git branch -D'
+alias gclmaster='git branch | egrep -v "(master|\*)" | xargs git branch -D'
 
 function change-commits-to-personal() {
 	git filter-branch -f --env-filter "GIT_AUTHOR_NAME='ScottBishop'; GIT_AUTHOR_EMAIL='scottbishop70@gmail.com'; GIT_COMMITTER_NAME='scott.bishop'; GIT_COMMITTER_EMAIL='scott.bishop@servicenow.com';" HEAD
