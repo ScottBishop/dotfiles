@@ -72,6 +72,10 @@ function gpsu() {
   git push --set-upstream origin "$(git_branch)"
 }
 
+function gsup() {
+  git branch --set-upstream-to="origin/$(git symbolic-ref HEAD --short)" "$(git symbolic-ref HEAD --short)"
+}
+
 function git_branch() {
   echo $($git symbolic-ref HEAD --short)
 }
