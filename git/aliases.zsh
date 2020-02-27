@@ -42,6 +42,7 @@ alias gb='git branch'
 #Merging
 alias gmd='git merge develop'
 alias gpm='gitupdatebases;git merge develop'
+alias gpmm='gitupdatebases;git merge master'
 alias ufb='updatefeaturebranch'
 
 # Clean up
