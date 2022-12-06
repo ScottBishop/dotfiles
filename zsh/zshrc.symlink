@@ -41,3 +41,5 @@ do
 done
 
 unset config_files
+
+source /usr/local/Homebrew/Library/Taps/now/homebrew-devtools/etc/zshrc

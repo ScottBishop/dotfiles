@@ -4,6 +4,8 @@ ZSH_THEME="robbyrussell"
 
 fpath=($ZSH/functions $fpath)
 
+export PATH=/Users/scott.bishop/Code/servicenow/android/utils:$PATH
+
 autoload -U $ZSH/functions/*(:t)
 
 autoload -U compinit
