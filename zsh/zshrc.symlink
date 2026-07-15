@@ -1,3 +1,68 @@
+# Claude personal account (separate config from work ~/.claude)
+# Claude Code stores OAuth creds in a single macOS Keychain entry keyed by the
+# system username, regardless of CLAUDE_CONFIG_DIR. This wrapper stashes the
+# active (work) creds into a side keychain item and loads the personal creds in
+# for the duration of the session, restoring on exit.
+_claude_personal_restore() {
+  local active="Claude Code-credentials"
+  local work_stash="Claude Code-credentials-work"
+  local personal_stash="Claude Code-credentials-personal"
+  local marker="$HOME/.claude-personal/.active-marker"
+  local blob
+
+  [[ -f "$marker" ]] || return 0
+
+  if blob=$(security find-generic-password -s "$active" -a "$USER" -w 2>/dev/null) && [[ -n "$blob" ]]; then
+    security delete-generic-password -s "$personal_stash" -a "$USER" >/dev/null 2>&1
+    security add-generic-password -s "$personal_stash" -a "$USER" -w "$blob"
+  fi
+
+  security delete-generic-password -s "$active" -a "$USER" >/dev/null 2>&1
+  if blob=$(security find-generic-password -s "$work_stash" -a "$USER" -w 2>/dev/null) && [[ -n "$blob" ]]; then
+    security add-generic-password -s "$active" -a "$USER" -w "$blob"
+  fi
+
+  rm -f "$marker"
+}
+
+claude-personal() {
+  local active="Claude Code-credentials"
+  local work_stash="Claude Code-credentials-work"
+  local personal_stash="Claude Code-credentials-personal"
+  local marker="$HOME/.claude-personal/.active-marker"
+  local blob
+
+  if [[ -f "$marker" ]]; then
+    print -u2 "claude-personal: previous session left keychain swapped — restoring first."
+    _claude_personal_restore
+  fi
+
+  if blob=$(security find-generic-password -s "$active" -a "$USER" -w 2>/dev/null) && [[ -n "$blob" ]]; then
+    security delete-generic-password -s "$work_stash" -a "$USER" >/dev/null 2>&1
+    security add-generic-password -s "$work_stash" -a "$USER" -w "$blob"
+  fi
+
+  security delete-generic-password -s "$active" -a "$USER" >/dev/null 2>&1
+  if blob=$(security find-generic-password -s "$personal_stash" -a "$USER" -w 2>/dev/null) && [[ -n "$blob" ]]; then
+    security add-generic-password -s "$active" -a "$USER" -w "$blob"
+  fi
+
+  touch "$marker"
+  trap _claude_personal_restore EXIT
+
+  CLAUDE_CONFIG_DIR="$HOME/.claude-personal" command claude "$@"
+}
+
+# claude-rc — personal Claude Code session that keeps the Mac awake so a phone
+# /remote-control (/rc) link doesn't drop when the system would idle-sleep.
+# Reuses claude-personal (keychain swap intact); caffeinate runs for the
+# session and is killed on exit, with an 8h cap as a backstop. Add -d to the
+# caffeinate flags if the link still drops when the display sleeps.
+claude-rc() {
+  caffeinate -ims -t 28800 & local _caf=$!
+  { claude-personal "$@" } always { kill "$_caf" 2>/dev/null }
+}
+
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
@@ -47,3 +112,13 @@ source /opt/homebrew/Library/Taps/now/homebrew-devtools/etc/zshrc
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="$PATH:"
+
+# Added by Windsurf
+export PATH="/Users/scott.bishop/.codeium/windsurf/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:/Users/scott.bishop/.mint/bin"
+
+if [ -f ~/.config/zsh/config.zsh ]; then
+    source ~/.config/zsh/config.zsh
+fi
