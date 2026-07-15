@@ -143,11 +143,16 @@ setup_claude () {
   # ~/.claude/ mixes portable config with machine-local runtime/session state
   # (cache, backups, transcripts, credentials), so unlike the *.symlink
   # convention above we link individual items rather than the whole directory.
+  #
+  # Only genuinely personal, non-work items live here (CLAUDE.md, the
+  # statusline script, and personal skills like wsl-fantasy). Work-specific
+  # skills/commands/scripts are intentionally NOT tracked in this public repo
+  # — install those separately from their own (private) source.
   mkdir -p "$HOME/.claude"
 
   local overwrite_all=false backup_all=false skip_all=false
 
-  for item in CLAUDE.md agents commands skills scripts statusline-command.sh
+  for item in CLAUDE.md skills statusline-command.sh
   do
     link_file "$DOTFILES_ROOT/claude/$item" "$HOME/.claude/$item"
   done
