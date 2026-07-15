@@ -137,8 +137,25 @@ install_dotfiles () {
   done
 }
 
+setup_claude () {
+  info 'linking Claude Code config'
+
+  # ~/.claude/ mixes portable config with machine-local runtime/session state
+  # (cache, backups, transcripts, credentials), so unlike the *.symlink
+  # convention above we link individual items rather than the whole directory.
+  mkdir -p "$HOME/.claude"
+
+  local overwrite_all=false backup_all=false skip_all=false
+
+  for item in CLAUDE.md agents commands skills scripts statusline-command.sh
+  do
+    link_file "$DOTFILES_ROOT/claude/$item" "$HOME/.claude/$item"
+  done
+}
+
 setup_gitconfig
 install_dotfiles
+setup_claude
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]

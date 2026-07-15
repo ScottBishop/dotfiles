@@ -6,3 +6,17 @@ atom.symlink/storage
 atom.symlink/themes
 
 git/gitconfig.symlink
+
+.DS_Store
+
+claude/scripts/node_modules
+claude/scripts/__pycache__
+*.pyc
+
+# Skill config.json files hold real names/paths/personal data — only *.example is ever committed
+claude/skills/*/config.json
+
+# defect-triage still has a hardcoded real management hierarchy baked into the prompt —
+# not yet genericized (same issue fixed for close-release); exclude until it is
+claude/skills/defect-triage/
+claude/commands/defect-triage.md
